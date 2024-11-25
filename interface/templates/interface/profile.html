@@ -1,0 +1,98 @@
+{% extends 'interface/base.html' %}
+{% load static %}
+{% block content %}
+
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <!-- Custom styles for this template -->
+    <link rel="stylesheet" href="{% static 'css/libs/dataTables.bootstrap4.min.css' %}">
+
+    <!-- Begin Page Content -->
+    <!-- Collapsable Card Example -->
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+            <div class="card shadow mb-4">
+                <!-- Card Header - Accordion -->
+                <a href="#collapseCardExample" class="d-block card-header py-3" data-toggle="collapse" role="button"
+                   aria-expanded="true" aria-controls="collapseCardExample">
+                    <h6 class="m-0 font-weight-bold text-primary">Информация о профиле</h6>
+                </a>
+                <!-- Card Content - Collapse -->
+                <div class="collapse show" id="collapseCardExample">
+                    <div class="card-body d-flex flex-row w-100 justify-content-between align-items-center">
+                        <!-- Текстовая информация (ФИО и должность) -->
+                        <div>
+                            <h5 class="card-title" id="userName">Степаниденко Ирина Андреевна</h5>
+                            <p class="card-text" id="userWorkerTypeName">Руководитель отдела</p>
+                            <p class="card-text" id="userLogin">Irina</p>
+                            <p class="card-text d-flex align-items-center">
+                                <span
+                                        id="userColor"
+                                        style="
+                                        width: 15px;
+                                        height: 15px;
+                                        border-radius: 50%;
+                                        display: inline-block;
+                                        margin-right: 8px;">
+                                </span>
+                                <span id="colorText">Цвет на календаре: #a3d9ff</span>
+
+                            </p>
+                        </div>
+                        <!-- Фотография -->
+                        <img src="{% static 'img/users/user.png' %}" alt="Фото" class="rounded-circle"
+                             style="width: 150px; height: 150px; object-fit: cover;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <a href="#collapseTable" class="d-block card-header py-3" data-toggle="collapse" role="button"
+           aria-expanded="true"
+           aria-controls="collapseTable">
+            <h6 class="m-0 font-weight-bold text-primary">Все уведомления</h6>
+        </a>
+        <!-- Card Content - Collapse -->
+        <div class="collapse show" id="collapseTable">
+            <div class="card-body">
+                <div id="notificationsContainer" class="container mt-4">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                            <tr>
+                                <th>Смена</th>
+                                <th>Отправитель</th>
+                                <th>Получатель</th>
+                                <th>Сообщение</th>
+                                <th>Дата отправки</th>
+                                <th>Прочитано работником</th>
+                                <th>Прочитано руководителем</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block modals %}
+{% endblock %}
+
+{% block scripts %}
+    <script src="{% static 'js/libs/jquery.min.js' %}"></script>
+    <script src="{% static 'js/libs/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/libs/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'js/libs/sb-admin-2.min.js' %}"></script>
+    <script src="{% static 'js/libs/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/libs/dataTables.bootstrap4.min.js' %}"></script>
+    <script src="{% static 'js/libs/datatables-demo.js' %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+    <script src="{% static 'js/profile.js' %}"></script>
+
+{% endblock %}

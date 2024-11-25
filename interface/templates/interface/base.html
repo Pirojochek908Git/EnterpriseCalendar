@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Neural network for finding a way out of the labyrinth">
+    <meta name="author" content="Irina Stepanidenko">
+    <meta name="generator" content="Python Django 4.1">
+
+    <link rel="stylesheet" href="{% static 'css/base.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/calendar.ico' %}">
+    <link rel="stylesheet" href="{% static 'css/libs/sb-admin-2.min.css' %}">
+
+
+    <!-- Custom styles for this template-->
+
+    <title>Enterpise Calendar</title>
+
+</head>
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+            <div class="sidebar-brand-icon">
+                <img src="{% static 'img/calendar.png' %}"
+                     alt="...">
+            </div>
+            <div class="sidebar-brand-text mx-3">Enterpise Calendar</div>
+        </a>
+
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+            <a class="nav-link" href="/info" id="infoPage">
+                <img width="30" height="30" src="{% static 'img/information.png' %}"
+                     alt="...">
+                <span>Информация</span>
+            </a>
+            <a class="nav-link" href="/monitor" id="analyticPage">
+                <img width="30" height="30" src="{% static 'img/report.png' %}"
+                     alt="...">
+                <span>Аналитика</span>
+            </a>
+            <a class="nav-link" href="/admin" id="adminPage">
+                <img width="30" height="30" src="{% static 'img/admin-panel.png' %}"
+                     alt="...">
+                <span>Панель администратора</span>
+            </a>
+        </li>
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- Main Content -->
+        <div id="content">
+            <!-- Topbar -->
+            <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                <!-- Topbar time -->
+                <h1 class="h3 mb-0 text-gray-800" id="dashboard-title"></h1>
+                <!-- Topbar Navbar -->
+                <ul class="navbar-nav ml-auto">
+                    <div class="topbar-divider d-none d-sm-block"></div>
+                    <!-- Nav Item - User Information -->
+                    <li class="nav-item dropdown no-arrow">
+                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <span class="mr-2 text-black" id="activeUserName"></span>
+                            <span style="display: none;" id="activeUserLogin"></span>
+                            <span style="display: none;" id="activeUserPassword"></span>
+                            <span style="display: none;" id="activeUserId"></span>
+                            <span style="display: none;" id="activeUserWorkerTypeId"></span>
+                            <span style="display: none;" id="activeUserWorkerTypeName"></span>
+                            <span style="display: none;" id="activeUserWorkerTypeDescription"></span>
+                            <span style="display: none;" id="activeUserColor"></span>
+                            <span style="display: none;" id="activeUserStatus"></span>
+                            <img class="img-profile rounded-circle"
+                                 src="/static/img/users/user.png">
+                        </a>
+                        <!-- Dropdown - User Information  <src="{% static 'img/users/user.png' %}">-->
+                        <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
+                            aria-labelledby="userDropdown">
+                            <li>
+                                <a class="dropdown-item" href="/profile">
+                                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Профиль
+                                </a>
+                            </li>
+                            <li>
+                                <hr class="dropdown-divider">
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/auth">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Выйти
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!-- Nav Item - Notifications -->
+                    <div class="dropdown d-flex align-items-center">
+                        <a class="nav-link dropdown-toggle p-0" href="#" id="notificationDropdown" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            <img width="30" height="30" style="cursor: pointer;" src="{% static 'img/bell.png' %}"
+                                 alt="Notifications">
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end shadow animated--grow-in"
+                            aria-labelledby="notificationDropdown" id="notificationsDropdown">
+                            <!-- Здесь будут добавлены уведомления через JS -->
+                        </ul>
+                    </div>
+                </ul>
+            </nav>
+            <!-- End of Topbar -->
+        </div>
+
+        <main id="content" class="px-3">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <div id="calendar"></div>
+
+        <!-- Footer -->
+        <footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span>Copyright &copy; Enterprise Calendar 2024</span>
+                </div>
+            </div>
+        </footer>
+        <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<!-- Scroll to Top Button-->
+<a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+</a>
+</body>
+
+{% block modals %}
+{% endblock %}
+
+{% block scripts %}
+
+    <script src="{% static 'js/libs/jquery.min.js' %}"></script>
+    <script src="{% static 'js/libs/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/libs/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'js/libs/sb-admin-2.min.js' %}"></script>
+    <script src="{% static 'js/libs/Chart.min.js' %}"></script>
+    <script src="{% static 'js/libs/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/libs/chart-area-demo.js' %}"></script>
+    <script src="{% static 'js/base.js' %}"></script>
+
+{% endblock %}
+
+</body>
+</html>

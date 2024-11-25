@@ -1,0 +1,152 @@
+{% extends 'interface/base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/info.css' %}">
+<ul class="nav nav-pills mb-3 nav-justified" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home"
+            type="button" role="tab" aria-controls="pills-home" aria-selected="true">Календарь
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-admin-tab" data-bs-toggle="pill" data-bs-target="#pills-admin" type="button"
+            role="tab" aria-controls="pills-admin" aria-selected="false">Панель администратора
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-info-tab" data-bs-toggle="pill" data-bs-target="#pills-info" type="button"
+            role="tab" aria-controls="pills-info" aria-selected="false">Информация о проекте
+        </button>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+        <div class="container">
+            <h5>Общая информация</h5>
+            <p>Позволяет создавать, изменять и удалять смены. Смотреть данные, управлять профилем, отправлять
+                уведомления и смотреть аналитику</p>
+            <h5>Работа с сайтом</h5>
+            <video width="1000" height="490" preload="auto" autoplay="autoplay" controls>
+                <source src="{% static 'video/info/CalendarAuth.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="alert alert-warning">
+                <a><strong>Важно!</strong> Помните, что у руководителя и работника разные типы учётной записи и
+                    некоторые функции и страницы могут быть недоступны обычным пользователям
+                </a>
+            </div>
+            <h5>Работа с группами</h5>
+            <video width="1000" height="490" preload="auto" autoplay="autoplay" controls>
+                <source src="{% static 'video/info/Calendar.mp4' %}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-admin" role="tabpanel" aria-labelledby="pills-admin-tab">
+        <div class="container">
+            <div class="alert alert-success">
+                <strong>Логин: root |</strong><strong> Пароль: 1234</strong>
+            </div>
+            <h5>Общая информация</h5>
+            <p>Административная панель Django - это встроенный инструмент, предоставляемый Django для управления
+                данными
+                вашего веб-приложения. Она обеспечивает удобный и мощный интерфейс для работы с моделями и данными в
+                вашей базе данных без необходимости создания собственного пользовательского интерфейса. Это мощный
+                инструмент, который значительно упрощает управление данными в вашем веб-приложении, и она
+                поставляется с
+                Django "из коробки", что делает ее одним из популярных выборов для административного интерфейса.</p>
+            <h5>Вход в административную панель</h5>
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Зайдите на страницу административной панели</div>
+                        Откройте веб-браузер и введите адрес административной панели (обычно это
+                        <code>/admin</code>) в адресной
+                        строке сайта или нажмите в левом меню "Панель администратора"
+                    </div>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">Авторизуйтесь</div>
+                        Вам будет предложено ввести учетные данные. Введите логин и пароль,
+                        указанные выше
+                    </div>
+                </li>
+            </ol>
+            <h5 class="mt-2 mb-2">Возможности панели администратора</h5>
+            <p><strong>Аутентификация и авторизация:</strong> Административная панель предоставляет механизмы
+                аутентификации для входа в систему. Пользователь должен ввести правильные учетные данные (логин и
+                пароль), чтобы получить доступ к административной панели. Кроме того, она поддерживает систему
+                авторизации, что позволяет управлять правами доступа пользователей, включая суперпользователя.</p>
+
+            <p><strong>Доступ к моделям приложения:</strong> Административная панель автоматически анализирует ваше
+                Django-приложение и создает интерфейс для работы с моделями, определенными в приложении. Она
+                позволяет
+                вам просматривать все модели, доступные в вашем приложении, и взаимодействовать с ними.</p>
+
+            <p><strong>CRUD операции:</strong> CRUD - это аббревиатура, означающая "Create", "Read", "Update" и
+                "Delete". Административная панель позволяет выполнять все эти операции с данными вашей базы данных.
+                Вы
+                можете создавать новые записи, просматривать их, обновлять значения полей и удалять записи.</p>
+
+            <p><strong>Фильтрация, поиск и сортировка:</strong> Административная панель предоставляет удобные
+                средства
+                для фильтрации данных, поиска и сортировки записей. Это очень полезно, когда у вас есть большое
+                количество данных и вы хотите быстро найти нужные записи.</p>
+
+            <p><strong>Валидация данных:</strong> При создании или редактировании записей, административная панель
+                выполняет проверку валидности данных, чтобы убедиться, что введенные значения соответствуют
+                определенным
+                правилам и ограничениям.</p>
+
+            <p><strong>Отображение связей:</strong> Если у ваших моделей есть взаимосвязи через внешние ключи или
+                другие
+                отношения, административная панель отображает эти связи и позволяет легко перемещаться между
+                связанными
+                записями.</p>
+
+            <p><strong>Настройка интерфейса:</strong> Вы можете настроить внешний вид и функциональность
+                административной панели, добавлять или скрывать поля, настраивать формы и управлять внешним видом
+                моделей.</p>
+
+            <div class="alert alert-warning">
+                <strong>Важно!</strong> С осторожностью удаляйте, изменяйте или добавляйте данные! Нарушив
+                целостность
+                структуры базы данных может полечь за собой нестабильную работу всего приложения. Если же Вам всё же
+                нужно ка-то изменить структуру базы данных, добавить новые таблицы или изменить внешние ключи, то
+                рекомендуем пользоваться бесплатной программой <a href="https://dbeaver.io/">Dbeaver</a>.
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-info" role="tabpanel" aria-labelledby="pills-info-tab">
+        <div class="container">
+            <h5>Наименование проекта</h5>
+            <p class="lead">Информационная система для учёта рабочего времени для ООО "Новые технологии"</p>
+
+            <h5>Цель выполнения проекта</h5>
+            <p class="lead">Разработка веб-приложения, которое позволит автоматизировать сбор, обработку и
+                визуализацию данных о рабочем графике отдела эксплуатации энергоустановок ООО «Новое
+                технологии».</p>
+
+            <h5>Задачи по проекту</h5>
+            <ol class="list-group">
+                <li class="list-group-item">Создать авторизацию пользователей в приложении
+                </li>
+                <li class="list-group-item">Создать график смен, который будет позволять отслеживать актуальное
+                    расписание и вносить изменения.
+                </li>
+                <li class="list-group-item">Создание инструментов аналитической отчетности
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% load static %}
+<script src="{% static 'js/base.js' %}"></script>
+<script src="{% static 'js/info.js' %}"></script>
+{% endblock %}
+
+</html>

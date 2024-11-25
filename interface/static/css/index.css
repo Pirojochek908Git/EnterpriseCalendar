@@ -1,0 +1,83 @@
+/* Простое стилизование */
+body {
+    font-family: Arial, sans-serif;
+  }
+
+  .calendar {
+    margin-top: 20px;
+  }
+
+.fc .fc-button {
+    background-color: var(--bs-primary);
+    color: white;
+    border: 1px solid var(--bs-primary);
+    border-radius: 0.25rem;
+    padding: 0.375rem 0.75rem;
+}
+
+.fc .fc-button:hover {
+    background-color: var(--bs-primary-light, #66b2ff);
+    color: white;
+}
+
+.fc .fc-button.fc-button-active {
+    background-color: var(--bs-primary);
+    color: white;
+    border: 2px solid var(--bs-dark);
+    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+}
+
+.fc .fc-prev-button,
+.fc .fc-next-button {
+    width: 36px; /* Пропорциональная ширина */
+    height: 36px; /* Пропорциональная высота */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.fc .fc-prev-button .fc-icon,
+.fc .fc-next-button .fc-icon {
+    font-size: 1.25rem; /* Выравнивание размеров иконок */
+}
+
+.fc-event-title {
+    max-height: 50px; /* Ограничиваем максимальную высоту */
+    overflow-y: auto; /* Добавляем вертикальный скролл при необходимости */
+}
+
+.fc-event {
+    overflow-y: scroll;
+    word-wrap: break-word;
+    max-width: 100%;
+    white-space: normal;
+}
+
+.fc-event .fc-event-title {
+    word-wrap: break-word;
+}
+
+.fc-event .fc-event-time {
+    word-wrap: break-word;
+}
+
+.fc-event .fc-event-description {
+    word-wrap: break-word;
+    white-space: normal;
+    overflow: auto;
+    max-height: 400px; /* Максимальная высота, чтобы контент не вылезал */
+    text-overflow: ellipsis; /* Обрезать текст, если он слишком длинный */
+}
+
+.fc-event-description p {
+    margin: 0; /* Убираем отступы у <p> */
+    padding: 0; /* Убираем внутренние отступы у <p> */
+}
+
+.fc-event-description hr {
+    margin: 0; /* Убираем вертикальные отступы у <hr> */
+    padding: 0; /* Убираем внутренние отступы у <hr> */
+    border: none; /* Убираем стандартные стили границы */
+    border-top: 1px solid #ccc; /* Применяем нужную границу, если нужно */
+}
+
