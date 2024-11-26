@@ -1,9 +1,9 @@
 @echo off
 cd C:\Projects\Diploma\Calendar
-call .\venv\Scripts\activate
+call C:\Projects\Diploma\Calendar\venv\Scripts\activate
 
 cd C:\Projects\Diploma\Calendar\EnterpriseCalendar
-start cmd /k "python manage.py runserver"
+start cmd /k "C:\Projects\Calendar\venv\Scripts\python.exe manage.py runserver"
 
 timeout /t 5
 
