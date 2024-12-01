@@ -158,14 +158,24 @@ document.addEventListener('DOMContentLoaded', async () => {
             document.getElementById('editEventTask').value = eventProps.task || '';
             document.getElementById('editEventCompletedWork').value = eventProps.completedWork || '';
             document.getElementById('editEventShiftApprove').checked = eventProps.isApproved;
+            const isApproved = eventProps.isApproved;
             if (employeeIdEvent == activeUserId) {
-                editEventModal.show();
-            } else if (activeUserId == 1) {
-                editEventModal.show();
+                if (isApproved == true) {
+                    if (activeUserId == 1) {
+                        editEventModal.show(); 
+                    } else {
+                        alert('У Вас нет возможности редактировать подтвержденную смену.');
+                    }         
+                } else { // Если isApproved <> true
+                    editEventModal.show(); 
+                }
             } else {
-                alert('У Вас нет прав для редактирования модального окна!')
+                if (activeUserId == 1) {
+                    editEventModal.show(); 
+                } else {
+                    alert('У Вас нет прав редактировать смену другого сотрудника.');
+                }         
             }
-
         }
     });
 
