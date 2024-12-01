@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById("editAdminApprove").style.display = "block";
         document.getElementById("editEventEmployee").disabled = false;
         document.getElementById("addEventEmployee").disabled = false;
+        // Если значение равно 1, показываем элементы
+        document.getElementById("analyticPage").style.display = "block";
+        document.getElementById("adminPage").style.display = "block";
 
     } else {
         // Если значение не равно 1, скрываем элементы
@@ -22,6 +25,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById("editAdminApprove").style.display = "none";
         document.getElementById("editEventEmployee").disabled = true;
         document.getElementById("addEventEmployee").disabled = true;
+        // Если значение не равно 1, скрываем элементы
+        document.getElementById("analyticPage").style.display = "none";
+        document.getElementById("adminPage").style.display = "none";
     }
 
     // Вспомогательная функция для получения CSRF-токена из cookie
