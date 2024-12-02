@@ -12,8 +12,8 @@ from django.template import loader
 from django.views import View
 from django.utils.timezone import now
 
-
-from datetime import datetime
+from django.utils import timezone
+from datetime import datetime, timedelta
 from django.db.models import Count
 from django.db.models import Sum, F, ExpressionWrapper, DurationField
 from django.db.models.functions import Cast
@@ -218,12 +218,47 @@ class AddNotificationView(APIView):
 
 class ShiftAnalyticsView:
     def get(self, request):
-        # Получение распределения смен по типам
-        data = (
-            ShiftsView.objects.values('shift_type_name')
-            .annotate(count=Count('id'))
-            .order_by('-count')
-        )
+        date_range = request.GET.get('date_range', 'day')
+        selected_date = request.GET.get('selected_date', None)
+
+        # Преобразуем выбранную дату в формат DateTime
+        if selected_date:
+            selected_date = datetime.strptime(selected_date, '%Y-%m-%d').date()
+
+        # Устанавливаем фильтрацию по периоду
+        if date_range == 'week' and selected_date:
+            start_of_week = selected_date - timedelta(days=selected_date.weekday())  # Начало недели
+            end_of_week = start_of_week + timedelta(days=6)  # Конец недели
+            data = ShiftsView.objects.filter(start_time__date__range=[start_of_week, end_of_week]) \
+                .values('shift_type_name') \
+                .annotate(count=Count('id')) \
+                .order_by('-count')
+        elif date_range == 'month' and selected_date:
+            # Получаем первый и последний день месяца для фильтрации
+            start_of_month = selected_date.replace(day=1)  # Первое число месяца
+            # Для получения последнего дня месяца
+            if selected_date.month == 12:
+                next_month = selected_date.replace(year=selected_date.year + 1, month=1, day=1)
+            else:
+                next_month = selected_date.replace(month=selected_date.month + 1, day=1)
+            end_of_month = next_month - timedelta(days=1)  # Последний день месяца
+
+            # Фильтруем данные по диапазону дат
+            data = ShiftsView.objects.filter(start_time__date__range=[start_of_month, end_of_month]) \
+                .values('shift_type_name') \
+                .annotate(count=Count('id')) \
+                .order_by('-count')
+        else:  # Для дня по умолчанию
+            if selected_date:
+                data = ShiftsView.objects.filter(start_time__date=selected_date) \
+                    .values('shift_type_name') \
+                    .annotate(count=Count('id')) \
+                    .order_by('-count')
+            else:
+                data = ShiftsView.objects.values('shift_type_name') \
+                    .annotate(count=Count('id')) \
+                    .order_by('-count')
+
         # Формирование JSON-ответа
         response_data = {
             "labels": [item['shift_type_name'] for item in data],
@@ -234,13 +269,26 @@ class ShiftAnalyticsView:
 
 class EmployeeLoadAnalyticsView:
     def get(self, request):
-        # Пример периода (можно менять под нужды)
-        start_date = request.GET.get('start_date', '2024-01-01')
-        end_date = request.GET.get('end_date', '2024-12-31')
+        # Получение параметров из запроса
+        date_range = request.GET.get('date_range', 'day')  # 'day', 'week', 'month'
+        selected_date = request.GET.get('selected_date', datetime.now().strftime('%Y-%m-%d'))
 
-        # Преобразуем строки в дату
-        start_date = datetime.strptime(start_date, '%Y-%m-%d')
-        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        # Преобразуем выбранную дату в объект datetime
+        selected_date = datetime.strptime(selected_date, '%Y-%m-%d')
+
+        # Определяем временные рамки в зависимости от date_range
+        if date_range == 'day':
+            start_date = selected_date
+            end_date = selected_date + timedelta(days=1)
+        elif date_range == 'week':
+            start_date = selected_date - timedelta(days=selected_date.weekday())  # Понедельник
+            end_date = start_date + timedelta(days=7)
+        elif date_range == 'month':
+            start_date = selected_date.replace(day=1)
+            next_month = start_date.replace(day=28) + timedelta(days=4)  # Переход на следующий месяц
+            end_date = next_month.replace(day=1)
+        else:
+            return JsonResponse({"error": "Invalid date_range parameter"}, status=400)
 
         # Получаем данные с агрегатным подсчётом времени
         data = (
@@ -277,13 +325,28 @@ class EmployeeLoadAnalyticsView:
 
 class ShiftTimeDistributionView(View):
     def get(self, request):
-        # Период, за который считаем
-        start_date = request.GET.get('start_date', '2024-01-01')
-        end_date = request.GET.get('end_date', '2024-12-31')
+        # Получаем параметры date_range и selected_date из запроса
+        date_range = request.GET.get('date_range', 'day')
+        selected_date = request.GET.get('selected_date', timezone.now().strftime('%Y-%m-%d'))
 
-        # Преобразуем строки в дату
-        start_date = datetime.strptime(start_date, '%Y-%m-%d')
-        end_date = datetime.strptime(end_date, '%Y-%m-%d')
+        # Преобразуем строку в объект даты
+        selected_date = datetime.strptime(selected_date, '%Y-%m-%d')
+
+        # В зависимости от выбранного диапазона, рассчитываем start_date и end_date
+        if date_range == 'day':
+            # Для дня start_date и end_date совпадают с выбранной датой
+            start_date = selected_date
+            end_date = selected_date + timedelta(days=1)
+        elif date_range == 'week':
+            # Для недели start_date - начало недели, end_date - конец недели
+            start_date = selected_date - timedelta(days=selected_date.weekday())  # Понедельник этой недели
+            end_date = start_date + timedelta(days=7)  # Конец недели (воскресенье)
+        elif date_range == 'month':
+            # Для месяца start_date - первое число месяца, end_date - первое число следующего месяца
+            start_date = selected_date.replace(day=1)
+            end_date = (start_date.replace(month=start_date.month % 12 + 1, day=1)
+                        if start_date.month < 12
+                        else start_date.replace(year=start_date.year + 1, month=1, day=1))
 
         # Классификация смен по времени суток
         shift_categories = {
@@ -296,13 +359,22 @@ class ShiftTimeDistributionView(View):
         # Подсчет смен в каждый период времени суток
         shift_counts = {category: 0 for category in shift_categories}
 
-        for shift in ShiftsView.objects.filter(start_time__gte=start_date, end_time__lte=end_date):
+        # Получаем смены в заданном диапазоне времени
+        shifts = ShiftsView.objects.filter(start_time__gte=start_date, end_time__lte=end_date)
+
+        for shift in shifts:
             start_hour = shift.start_time.hour
             for category, (start, end) in shift_categories.items():
-                # Определяем, в какую категорию попадает время начала смены
-                if start <= start_hour < end or (start > end and (start_hour >= start or start_hour < end)):
-                    shift_counts[category] += 1
-                    break
+                if start <= end:
+                    # Для "Утро", "День", "Вечер" — обычная логика
+                    if start <= start_hour < end:
+                        shift_counts[category] += 1
+                        break
+                else:
+                    # Для "Ночь" (с 22:00 до 6:00) — обрабатываем смены, пересекающие полночь
+                    if start_hour >= start or start_hour < end:
+                        shift_counts[category] += 1
+                        break
 
         # Подготавливаем данные для графика
         response_data = {

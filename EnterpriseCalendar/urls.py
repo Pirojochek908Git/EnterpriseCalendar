@@ -52,7 +52,7 @@ urlpatterns = [
     # API для удаления смены
     path('api/deleteShiftData/<int:shift_id>/', DeleteShiftView.as_view(), name='delete-shift'),
     # API для графика
-    path('analytics/shifts-by-type/', ShiftAnalyticsView().get, name='shifts_by_type'),
+    path('analytics/shift-load/', ShiftAnalyticsView().get, name='shifts_by_type'),
     # API для добавления данных агента
     path('analytics/employee-load/', EmployeeLoadAnalyticsView().get, name='employee_load'),
 
